@@ -15,3 +15,6 @@ class CrawlForm(forms.Form):
     '''
 class SearchForm(forms.Form):
     searchquery = forms.CharField(label='Search', max_length=100, required=False)
+
+class SpellForm(forms.Form):
+    spellquery = forms.URLField(label='suggestion')

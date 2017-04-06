@@ -27,6 +27,7 @@ def index():
 
 
 def smart_search(query):
+    collationqueries = []
     query_params = {'q': '"'+query+'"', 'wt':'json'}
     url = 'http://localhost:8983/solr/newtest/select?'
     url = url + urllib.urlencode(query_params)
@@ -35,30 +36,33 @@ def smart_search(query):
     #results = solr.search("'"+query+"'")
     print(results['response']['docs'])
     number = results['response']['numFound']
-    # if (number == 0): #do spellcheck
-    #     collations = results['spellcheck']['collations']
-    #     collationqueries = []
-    #     for c in collations:
-    #         if(c!='collation'):
-    #             print (c['collationQuery'])
-    #             collationqueries.append(c['collationQuery'])
-    #     print (collationqueries)
-    #     if(len(collationqueries)==0):
-    #         print("entered ~1")
-    #         query_params = {'q': query+'~1', 'wt': 'json'}
-    #         url = 'http://localhost:8983/solr/newtest/select?'
-    #         url = url + urllib.urlencode(query_params)
-    #         results = json.loads(urllib2.urlopen(url).read())
-    #         number = results['response']['numFound']
-    # print(results)
-   # print(number)
-   #  for doc in results['response']['docs']:
-   #      print (doc['webTitle'])
-   #      doc['webTitle'][0] = doc['webTitle'][0].encode("utf-8")
-   #      print(type(doc['webTitle'][0]))
-   #      print(type(doc['webTitle'][0]))
-    #encoded_str = results.encode("utf8")
-    return (number, results['response']['docs'])
+    if (number == 0): #do spellcheck
+        collations = results['spellcheck']['collations']
+
+        for c in collations:
+            if(c!='collation'):
+                print (c['collationQuery'])
+                cq = c['collationQuery']
+                cq = cq.replace('\"','')
+                collationqueries.append(cq)
+        print (collationqueries)
+        if(len(collationqueries)==0):
+            print("entered ~1")
+            query_params = {'q': query+'~1', 'wt': 'json'}
+            url = 'http://localhost:8983/solr/newtest/select?'
+            url = url + urllib.urlencode(query_params)
+            results = json.loads(urllib2.urlopen(url).read())
+            number = results['response']['numFound']
+    print(results)
+    print(number)
+    print(collationqueries)
+    for doc in results['response']['docs']:
+        print (doc['webTitle'])
+        doc['webTitle'][0] = doc['webTitle'][0].encode("utf-8")
+        print(type(doc['webTitle'][0]))
+        print(type(doc['webTitle'][0]))
+   # encoded_str = results.encode("utf8")
+    return (number, results['response']['docs'], collationqueries)
 
 
 
@@ -73,8 +77,8 @@ def quick_search(query):
     print(results)
     number = results['response']['numFound']
     print(number)
-    return results
+    return (results,[])
 
 #quick_search('with weeks')
-smart_search('with eight')
+#smart_search('with eight')
 

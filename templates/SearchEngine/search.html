@@ -47,8 +47,16 @@
         <!--<div class="blur">
         </div>-->
         <div class="extratext">
-            <div class="col-md-6" >
-                <p> ..C..</p>
+            <div class="col-md-6" style="text-align: left">
+                {% if suggestions.0 != '' %}
+                <div>
+                 Did you mean :
+                {% for sug in suggestions %}
+                <a name="q" href="http://127.0.0.1:8000/search?query={{ sug }}">{{ sug }}</a>
+                {% endfor %}
+
+                </div>
+                {%  endif %}
             </div>
             <div id="numResults" class="col-md-6" style="text-align: right">
                 {{ numResults }} results found
@@ -56,13 +64,18 @@
        </div>
     </div>
 <hr/>
+
+
+
+
+
      <div id="mainSection" class="row">
         <!-- <div style="border-left:medium black solid; position:absolute; left:300px; height:500px;" />-->
          <div id="filterPane" class="col-md-4">
          <!--   <div class="blur">
         </div>-->
              <div>
-                <p>Hello this is filers column</p>
+                <p>Hello this is filters column</p>
 
              </div>
              <div class="range-slider">
@@ -88,14 +101,43 @@
                     <a href>{{ item.webUrl.0 }}</a>
                 </div>
 
-                <div id="firstPara">
-                    <p>{{ item.firPara.0}}</p>
+                <div id="firstPara" class="comments-space">
+                    {{ item.firPara.0}}
                 </div>
                 </li>
                 <br>
             {% endfor %}
           </ol>
          </div>
+
+     <script type="text/javascript" >
+    var showChar = 75;
+var ellipsestext = "...";
+var moretext = "See More";
+var lesstext = "See Less";
+$('.comments-space').each(function () {
+    var content = $(this).html();
+    if (content.length > showChar) {
+        var show_content = content.substr(0, showChar);
+        var hide_content = content.substr(showChar, content.length - showChar);
+        var html = show_content + '<span class="moreelipses">' + ellipsestext + '</span><span class="remaining-content"><span>' + hide_content + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+        $(this).html(html);
+    }
+});
+
+$(".morelink").click(function () {
+    if ($(this).hasClass("less")) {
+        $(this).removeClass("less");
+        $(this).html(moretext);
+    } else {
+        $(this).addClass("less");
+        $(this).html(lesstext);
+    }
+    $(this).parent().prev().toggle();
+    $(this).prev().toggle();
+    return false;
+});
+</script>
 
      </div>
 </div>
