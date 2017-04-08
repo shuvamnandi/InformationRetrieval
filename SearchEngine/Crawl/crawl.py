@@ -116,7 +116,6 @@ class Crawl:
             for article in articles:
                 #print "article_count:", article_count, "article: ", article
                 article_id = article['id']
-
                 article_web_url = article['webUrl']
                 #print article_count, article['apiUrl'], article_id
                 (paragraphs, word_count) = self.extract_article_paragraphs(article_web_url)
@@ -167,7 +166,8 @@ class Crawl:
         # print dictionary
         print "Total number of articles:", total_articles
         print "Total number of pages:", number_of_pages
-        for page in range(page_id, page_id+2):
+        for page in range(page_id, page_id + 600):
+            print "Crawling page:", page_id
             self.crawl_page(crawl_url, page,section)
 
     def crawl_all_sections(self, page_id, query=None):

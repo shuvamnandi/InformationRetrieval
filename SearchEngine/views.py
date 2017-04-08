@@ -1,11 +1,13 @@
 from django.core.urlresolvers import reverse
 from solrq import Q
-import pysolr, json
+import pysolr, json, urllib2, urllib
 from django.shortcuts import redirect,render
 from django.http import HttpResponse, HttpResponseRedirect
 from SearchEngine.Crawl.crawl import Crawl
-from .forms import CrawlForm, SearchForm
+from .forms import CrawlForm, SearchForm, ClassifyForm
 
+t='t'
+c='c'
 
 def index(request):
     return render(request, 'SearchEngine/home.html')
@@ -74,3 +76,36 @@ def send_search(request, query_keyword):
         print("The result is '{}'.".format(result))
         print("The address is '{}'.".format(result["address"][0].encode("ascii")))
     return render(request, 'SearchEngine/search.html',{'query_keyword':query_keyword,'resultlist':resultlist})
+
+#Classification
+
+def classify(request):
+
+    if request.method == 'POST':
+        print "entered post"
+        form = ClassifyForm(request.POST)
+        print "form:", form
+        print "valid:", form.is_valid()
+
+        if form.is_valid():
+            if form.cleaned_data['title']:
+                form_data = form.cleaned_data
+                title = form_data['title']
+                print "Title", title
+            if form.cleaned_data['content']:
+                form_data = form.cleaned_data
+                con = form_data['content']
+        parameters = {'title': title, 'content': con}
+        url = 'http://127.0.0.1:8000/classifyresults?' + urllib.urlencode(parameters)
+        return redirect(url)
+    else:
+        form = ClassifyForm()
+    return render(request, 'SearchEngine/classify.html', {'form': form})
+
+def classifyresults(request):
+    global t
+    global c
+    if request.method == 'GET':
+        t = request.GET.get('title')
+        c = request.GET.get('content')
+    return render(request, 'SearchEngine/classifyresults.html', {'title': t, 'content': c})

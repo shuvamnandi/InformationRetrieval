@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Sports News</title>
+	<meta charset="utf-8" />
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static 'css/classifyStyle.css' %}" >
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+</head>
+ <!--Classification-->
+
+     <body>
+     {% load staticfiles %}
+     {% load bootstrap3 %}
+        <nav class="navbar navbar-default navigation">
+  <div class="container-fluid navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">The Guardian Sports News</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li ><a href="{% url 'SearchEngine:home' %}">Search</a></li>
+      <li><a href="#">Crawl</a></li>
+        <li class="active"><a href="{% url 'SearchEngine:classify' %}">Classify</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+     <div class="searchbox">
+         <img id="logo" src="{% static "SearchEngine/images/logo.png" %}" >
+             <div class="input-group col-md-8 col-sm-offset-2">
+
+                    <form action="{% url 'SearchEngine:classify' %}" method="post" id="classifyform"> <!--action="/search/"-->
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                             <div class="form-group">
+
+                                     <button type="submit" class="btn btn-primary" >
+                                        Classify
+                                     </button>
+
+                             </div>
+
+                    </form>
+
+             </div>
+     </div>
+
+ </body>
+
+</html>
+

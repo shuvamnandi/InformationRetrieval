@@ -6,5 +6,8 @@ url(r'^$', views.index, name='index'),
 url(r'^home/', views.get_search_keyword, name='home'),
 url(r'^search/', views.send_search, name='search'),
 url(r'^crawl/', views.get_crawl_keyword, name='crawl'),
-url(r'^thanks/', views.thanks, name='thanks')
+url(r'^thanks/', views.thanks, name='thanks'),
+    #Classification
+url(r'^classify/', views.classify, name='classify'),
+url(r'^classifyresults/', views.classifyresults, name='classifyresults')
 ]

@@ -15,3 +15,8 @@ class CrawlForm(forms.Form):
     '''
 class SearchForm(forms.Form):
     searchquery = forms.CharField(label='Search', max_length=100, required=False)
+
+#Classification
+class ClassifyForm(forms.Form):
+    title = forms.CharField(label='Title', max_length=200, required=False)
+    content = forms.CharField(label='Content', max_length=2000, required=False, widget=forms.Textarea(attrs={'size':50}))
