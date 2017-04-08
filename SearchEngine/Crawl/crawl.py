@@ -1,4 +1,4 @@
-import datetime, dateutil.parser
+import dateutil.parser
 import json
 import os
 import re
@@ -73,7 +73,7 @@ class Crawl:
                     # Do not add again if it already exists
                     if text not in paragraph_list:
                         count += 1
-                        text = self.lemmatiser.eliminate_punctuators(text)
+                        # text = self.lemmatiser.eliminate_punctuators(text)
                         r = re.compile(r'[{}]'.format(punctuation))
                         new_text = r.sub(' ', text)
                         word_count += len(new_text.split())
@@ -87,6 +87,7 @@ class Crawl:
 
     def extract_article_images(self, web_url):
         print "extract_article_images()"
+        print "URL:", web_url
         try:
             urlf = urllib2.urlopen(web_url)
             article_html = urlf.read()
@@ -227,7 +228,7 @@ class Crawl:
                 crawled_articles += self.crawl_by_section(section, page_id)
         return crawled_articles
 
-    def crawl_dynamic(self, section_list=['sport', 'football'], query=None, page_id=2):
+    def crawl_dynamic(self, section_list=['sport', 'football'], query=None, page_id=1):
         print "crawl_dynamic()"
         if query is not None:
             crawled_articles = self.crawl_all_sections(page_id, query=query)
@@ -242,12 +243,13 @@ def main():
     crawl = Crawl()
     articles = crawl.crawl_dynamic()
     print "Articles crawled", articles
+    #crawl.extract_article_images('https://www.theguardian.com/football/2017/apr/06/us-canada-mexico-joint-world-cup-bid-2026')
     # crawl.crawl_query('Nadal')
     # query = 'Rafael'
     # print query
     # query=query.replace(" ", "%20")
     # print query
-    # strs = "Johnny.Appleseed!is:a*good&farmer"
+
 
 if __name__ == '__main__':
     main()

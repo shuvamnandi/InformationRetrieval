@@ -74,8 +74,8 @@ def send_search(request, query, search_type):
     # Just loop over it to access the results.
     for result in results:
         result_list.append(result)
-        print "The result is '{}'.".format(result)
-        #print("The address is '{}'.".format(result["address"][0].encode("ascii")))
+        # print "The result is '{}'.".format(result)
+        # print("The address is '{}'.".format(result["address"][0].encode("ascii")))
     return render(request, 'SearchEngine/search.html', {'query': query, 'resultlist': result_list,
                                                         'numResults': num_results})
 
