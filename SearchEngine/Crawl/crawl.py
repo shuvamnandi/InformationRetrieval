@@ -21,7 +21,7 @@ class Crawl:
     crawled_information = {}
     sections = ('sport', 'football')
     lemmatiser = Lemmatiser()
-    my_sql = MySQL()
+    my_sql = MySQL(host='104.199.252.211', database='INFORETRIEVAL', user='root', password='cz4034')
 
     def __init__(self):
         print "Crawling initialised."
@@ -237,12 +237,12 @@ class Crawl:
 def main():
     crawl = Crawl()
     crawl.crawl_dynamic()
-    #crawl.crawl_query('Nadal')
-    #query = 'Rafael'
-    #print query
-    #query=query.replace(" ", "%20")
-    #print query
-    #strs = "Johnny.Appleseed!is:a*good&farmer"
+    # crawl.crawl_query('Nadal')
+    # query = 'Rafael'
+    # print query
+    # query=query.replace(" ", "%20")
+    # print query
+    # strs = "Johnny.Appleseed!is:a*good&farmer"
 
 if __name__ == '__main__':
     main()

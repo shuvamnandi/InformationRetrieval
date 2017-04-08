@@ -2,12 +2,12 @@ import mysql.connector
 
 
 class MySQL(object):
-    def __init__(self):
-        self.host = '104.199.252.211'
-        self.database = 'INFORETRIEVAL'
-        self.user = 'root'
-        self.password = 'cz4034'
-        self.db_connection = mysql.connector.connect(host=self.host,
+    def __init__(self, host, database, user, password):
+        self.host = host
+        self.database = database
+        self.user = user
+        self.password = password
+        self.db_connection = mysql.connector.connect(host =self.host,
                                                      database=self.database,
                                                      user=self.user,
                                                      password=self.password)
@@ -39,9 +39,10 @@ class MySQL(object):
 
 def __main__():
     mysql_obj = MySQL()
-    # result = mysql_obj.execute_query("SELECT id from crawlData WHERE id='sport/2017/apr/05/wisden-comes-out-fighting-free-to-air-cricket-coverage-england-alastair-cook'")
+    # mysql_obj.execute_query("DELETE from Crawl")
+    # result = mysql_obj.execute_query("SELECT * from Crawl")
     # for id in result:
-    #     print "{}: 1. {} 2. ".format(id, id, id)
-
-if __name__ == __main__():
-    __main__()
+    #      print "{}: 1. {} 2. ".format(id, id, id)
+    #
+# if __name__ == __main__():
+#     __main__()
