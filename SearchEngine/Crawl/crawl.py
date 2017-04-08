@@ -79,8 +79,8 @@ class Crawl:
                         word_count += len(new_text.split())
                         paragraph_list.append(text)
                         # print count, len(text), text
-            #print " "
-            #print "Word-count:", word_count
+            # print " "
+            # print "Word-count:", word_count
             return (paragraph_list, word_count)
         except urllib2.URLError:
             print "URLError encountered."
@@ -207,6 +207,7 @@ class Crawl:
         file_path = os.path.join(dir_path, file_name)
         with open(file_path, 'w') as json_file:
             json.dump(dictionary, json_file, sort_keys=True)
+        return crawled_articles
 
     def crawl_all_sections(self, page_id, query=None):
         '''
@@ -216,27 +217,31 @@ class Crawl:
         :return: None
         '''
         # Crawls both 'Football' and 'Sport' sections
+        crawled_articles = 0
         if query is not None:
             for section in self.sections:
-                self.crawl_by_section(section, page_id, query)
+                crawled_articles += self.crawl_by_section(section, page_id, query)
         # Crawls query in both 'Football' and 'Sport' sections
         else:
             for section in self.sections:
-                self.crawl_by_section(section, page_id)
+                crawled_articles += self.crawl_by_section(section, page_id)
+        return crawled_articles
 
-    def crawl_dynamic(self, section_list=['sport', 'football'], query=None, page_id=1):
+    def crawl_dynamic(self, section_list=['sport', 'football'], query=None, page_id=2):
         print "crawl_dynamic()"
         if query is not None:
-            self.crawl_all_sections(page_id, query=query)
+            crawled_articles = self.crawl_all_sections(page_id, query=query)
         elif len(section_list) == 1:
-            self.crawl_by_section(section_list[0], page_id)
+            crawled_articles = self.crawl_by_section(section_list[0], page_id)
         else:
-            self.crawl_all_sections(page_id)
+            crawled_articles = self.crawl_all_sections(page_id)
+        return crawled_articles
 
 
 def main():
     crawl = Crawl()
-    crawl.crawl_dynamic()
+    articles = crawl.crawl_dynamic()
+    print "Articles crawled", articles
     # crawl.crawl_query('Nadal')
     # query = 'Rafael'
     # print query
